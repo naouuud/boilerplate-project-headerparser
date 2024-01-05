@@ -32,7 +32,14 @@ app.get("/api/whoami", (req, res, next) => {
   res.json({ ipaddress, language, software });
 });
 
-app;
+app.use((req, res, next) => {
+  const err = new Error("Not Found");
+  next(err);
+});
+
+app.use((err, req, res, next) => {
+  res.json(err.message);
+});
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT || 3000, function () {
